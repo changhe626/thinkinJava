@@ -1,8 +1,11 @@
 package com.datastruct;
 
+import javax.swing.text.html.HTMLDocument;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.Random;
+import java.util.function.Consumer;
 
 /**
  * 袋子的实现类
@@ -258,13 +261,65 @@ public class ArrayBag  implements  BagADT{
 
     @Override
     public Iterator iterator() {
-        return null;
+        return  new ArrayIterator(count,0,contents);
     }
 
     @Override
     public String toString() {
-        return "ArrayBag{" +
-                "contents=" + Arrays.toString(contents) +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < count; i++) {
+            sb.append(contents[i]);
+            sb.append(",");
+        }
+        String s = sb.substring(0, sb.length() - 1);
+        return s;
+    }
+
+    /**
+     * 使用内部类的形式
+     */
+    private class ArrayIterator implements Iterator{
+        private int counts; //所有的个数
+        private int current; //当前的迭代的位置
+        private  Object[] items;
+
+        public ArrayIterator(int counts, int current, Object[] items) {
+            this.counts = counts;
+            this.current = current;
+            this.items = items;
+        }
+
+        @Override
+        public boolean hasNext() {
+            /*if(current>counts){
+                return  false;
+            }else{
+                return false;
+            }*/
+
+            //2.
+            return  current<counts;
+        }
+
+        @Override
+        public Object next() throws NoSuchElementException{
+            //1.判断是否还有元素,再取
+            if(!hasNext()){
+                throw new NoSuchElementException("已经没有元素了");
+            }
+            current++;
+            return items[current-1];
+
+        }
+
+        @Override
+        public void remove() throws UnsupportedOperationException {
+            throw new UnsupportedOperationException("不支持进行删除操作");
+        }
+
+        @Override
+        public void forEachRemaining(Consumer action) {
+
+        }
     }
 }
