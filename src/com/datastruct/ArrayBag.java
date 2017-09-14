@@ -29,10 +29,10 @@ public class ArrayBag  implements  BagADT{
      * 定义了多少长度的构造函数
      * @param initialCapacity
      */
-    public ArrayBag(int initialCapacity) {
+    public ArrayBag(int initialCapacity) throws UnsupportedOperationException {
         count=0;
-        //对容量的大小进行判断
-        if(initialCapacity>Integer.MAX_VALUE){
+        //对容量的大小进行判断,不能超过int最大值的一半
+        if(initialCapacity>(Integer.MAX_VALUE/2)){
             throw  new UnsupportedOperationException("容量过大,暂时不支持");
         }else{
             contents=new Object[initialCapacity];
@@ -108,7 +108,7 @@ public class ArrayBag  implements  BagADT{
                     contents[count-1]=null;
                     count--;
                     break;
-                 }
+                }
             }
         }
         return flag;
@@ -130,7 +130,28 @@ public class ArrayBag  implements  BagADT{
 
     @Override
     public BagADT union(BagADT target) {
-        return null;
+        //我认为的写法是,避免重复赋值,性能的浪费,当然了不能这样写,
+        //这样写就会造成了原来的袋子的数据的不存在了....还是要按照书上的来写,要新建一个
+        /*Iterator iterator=target.iterator();
+        if(iterator.hasNext()){
+            Object tmp=iterator.next();
+            //进行是否存在的判断,存在就放进去,否则就不放,节省空间
+            if(!contains(tmp)){
+                add(tmp);
+            }
+        }
+        return this;*/
+
+        //书上的做法是,直接新建一个袋,把两个全部放进去,我自己把容量加了上去
+        BagADT bagADT= new ArrayBag(count+target.size());
+        for (int i = 0; i < count; i++) {
+            bagADT.add(contents[i]);
+        }
+        Iterator iterator=target.iterator();
+        while(iterator.hasNext()){
+            bagADT.add(iterator.next());
+        }
+        return  bagADT;
     }
 
     @Override
