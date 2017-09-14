@@ -60,12 +60,16 @@ public class ArrayBag  implements  BagADT{
         for (int i = 0; i < contents.length; i++) {
             lager[i] = contents[i];
         }
+        //重新进行赋值的引用
+        contents=lager;
     }
 
     /**
      * 记得抛出异常!!!
      * @return
      * @throws UnsupportedOperationException
+     * 这里也可以不进行异常的抛出,进行判断,如果是空的袋子就直接返回null也是可以的,这样
+     * 在外面进行调用的时候就不用进行try-catch,以及异常的处理了
      */
     @Override
     public Object removeRandom() throws UnsupportedOperationException{
@@ -81,7 +85,7 @@ public class ArrayBag  implements  BagADT{
         contents[nextInt]=contents[nextInt-1];
         contents[nextInt-1]=null;
 
-       /* 2.进行所有元素的移动,往前移动一下,我写的,最后一个元素位置进行置空
+       /* 2.进行所有元素的移动,往前移动一下,最后一个元素位置进行置空,zk
         for (int i = nextInt; i < contents.length-1; i++) {
             contents[i]=contents[i+1];
         }
@@ -156,18 +160,29 @@ public class ArrayBag  implements  BagADT{
 
     @Override
     public boolean contains(Object element) {
-        boolean flag=false;
+        //1.我的写法
+        /*boolean flag=false;
         for (int i = 0; i < contents.length; i++) {
             if(element.equals(contents[i])){
                 flag=true;
             }
         }
-        return flag;
+        return flag;*/
+
+        //2.书中写法是,进行下标的查找,是一个意思的.
+        int search=NOT_FOUND;
+        for (int i = 0; i < contents.length; i++) {
+            if(element.equals(contents[i])){
+                search=i;
+            }
+        }
+        return  (search!=NOT_FOUND);
+
     }
 
     @Override
     public boolean equal(BagADT bag) {
-        boolean flag=false;
+       /* boolean flag=false;
         //首先进行长度的判断
         if(contents.length==bag.size()){
             //全部取出变成一个字符串,进行比较
@@ -189,12 +204,40 @@ public class ArrayBag  implements  BagADT{
                 flag=true;
             }
         }
-        return flag;
+        return flag;*/
+       //不能够使用变成字符串来比较,因为是无顺序的,所以就算是相同的元素但是书序不同也不同,我的思路有问题.
+
+        //直接进行地址的比较,相同就直接返回true了.zk
+        if(this==bag){
+            return  true;
+        }
+
+        //书中的写法是
+        //注意对以前的参数进行保存,使用副本的形式进行数据的比较
+        boolean flag=false;
+        ArrayBag bag1 = new ArrayBag(count);
+        ArrayBag bag2 = new ArrayBag(bag.size());
+        bag1.addAll(this);
+        bag2.addAll(bag);
+        if(bag1.size()==bag2.size()){
+            Iterator iterator = bag1.iterator();
+            while(iterator.hasNext()){
+                Object tmp=iterator.next();
+                //同时进行元素的删除
+                bag1.remove(tmp);
+                bag2.remove(tmp);
+            }
+            //同时为空
+            if(bag1.isEmpty() && bag2.isEmpty()){
+                flag=true;
+            }
+        }
+        return  flag;
     }
 
     @Override
     public boolean isEmpty() {
-        //1.进行多步骤的判断
+        //1.进行多步骤的判断 zk
         /*if(count==0){
             return false;
         }else{
@@ -209,8 +252,11 @@ public class ArrayBag  implements  BagADT{
         return count;
     }
 
+
     @Override
     public Iterator iterator() {
         return null;
     }
+
+
 }
