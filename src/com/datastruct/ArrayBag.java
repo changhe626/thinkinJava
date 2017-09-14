@@ -1,5 +1,6 @@
 package com.datastruct;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Random;
 
@@ -225,7 +226,9 @@ public class ArrayBag  implements  BagADT{
                 Object tmp=iterator.next();
                 //同时进行元素的删除
                 bag1.remove(tmp);
-                bag2.remove(tmp);
+                if(bag2.contains(tmp)){ //有才删除的,其实也可以不进行判断
+                    bag2.remove(tmp);
+                }
             }
             //同时为空
             if(bag1.isEmpty() && bag2.isEmpty()){
@@ -258,5 +261,10 @@ public class ArrayBag  implements  BagADT{
         return null;
     }
 
-
+    @Override
+    public String toString() {
+        return "ArrayBag{" +
+                "contents=" + Arrays.toString(contents) +
+                '}';
+    }
 }
