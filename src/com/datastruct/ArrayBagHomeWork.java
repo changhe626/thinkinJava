@@ -1,13 +1,13 @@
 package com.datastruct;
 
 import java.util.Iterator;
-import java.util.NoSuchElementException;
 import java.util.Random;
 
 /**
  * 袋子的实现类
  */
-public class ArrayBag  implements  BagADT{
+//只有实现了Iterable 接口才能够使用高级for循环的,并且要在里面定义类型
+public class ArrayBagHomeWork implements  BagADT,Iterator,Iterable<ArrayBagHomeWork>{
 
     private  static  Random rand=new Random();
     //默认长度
@@ -21,7 +21,7 @@ public class ArrayBag  implements  BagADT{
     /**
      * 默认构造函数
      */
-    public ArrayBag() {
+    public ArrayBagHomeWork() {
         count=0;
         contents=new Object[DEFAULT_CAPACITY];
     }
@@ -30,7 +30,7 @@ public class ArrayBag  implements  BagADT{
      * 定义了多少长度的构造函数
      * @param initialCapacity
      */
-    public ArrayBag(int initialCapacity) throws UnsupportedOperationException {
+    public ArrayBagHomeWork(int initialCapacity) throws UnsupportedOperationException {
         count=0;
         //对容量的大小进行判断,不能超过int最大值的一半
         if(initialCapacity>(Integer.MAX_VALUE/2)){
@@ -42,28 +42,16 @@ public class ArrayBag  implements  BagADT{
 
 
     @Override
-    public void add(Object element) {
+    public void add(Object element) throws  UnsupportedOperationException{
         //首先进行容量是否足够的判断
         //使用size(),或者conut都行
         if(size()==contents.length){
-            //扩容
-            expandCapacity();
+            //不在进行扩容,抛出异常
+            throw new UnsupportedOperationException("容器已满,不能在继续添加了");
         }
         contents[count++]=element;
     }
 
-    /**
-     * 进行容量的扩展,重新赋值
-     */
-    private void expandCapacity() {
-        //容量扩大两倍,  contents.length*2
-        Object[] lager=new Object[count*2];
-        for (int i = 0; i < contents.length; i++) {
-            lager[i] = contents[i];
-        }
-        //重新进行赋值的引用
-        contents=lager;
-    }
 
     /**
      * 记得抛出异常!!!
@@ -148,7 +136,7 @@ public class ArrayBag  implements  BagADT{
         return this;*/
 
         //书上的做法是,直接新建一个袋,把两个全部放进去,我自己把容量加了上去
-        BagADT bagADT= new ArrayBag(count+target.size());
+        BagADT bagADT= new ArrayBagHomeWork(count+target.size());
         for (int i = 0; i < count; i++) {
             bagADT.add(contents[i]);
         }
@@ -216,8 +204,8 @@ public class ArrayBag  implements  BagADT{
         //书中的写法是
         //注意对以前的参数进行保存,使用副本的形式进行数据的比较
         boolean flag=false;
-        ArrayBag bag1 = new ArrayBag(count);
-        ArrayBag bag2 = new ArrayBag(bag.size());
+        ArrayBagHomeWork bag1 = new ArrayBagHomeWork(count);
+        ArrayBagHomeWork bag2 = new ArrayBagHomeWork(bag.size());
         bag1.addAll(this);
         bag2.addAll(bag);
         if(bag1.size()==bag2.size()){
@@ -255,10 +243,13 @@ public class ArrayBag  implements  BagADT{
         return count;
     }
 
-
+    /**
+     * 重写iterator方法,本类进行实现接口的形式,更加的简便,灵活
+     * @return
+     */
     @Override
     public Iterator iterator() {
-        return  new ArrayIterator(count,0,contents);
+        return this;
     }
 
     @Override
@@ -272,47 +263,25 @@ public class ArrayBag  implements  BagADT{
         return s;
     }
 
-    /**
-     * 使用内部类的形式
-     */
-    private class ArrayIterator implements Iterator{
-        private int counts; //所有的个数
-        private int current; //当前的迭代的位置
-        private  Object[] items;
+    private int current=0;
 
-        public ArrayIterator(int counts, int current, Object[] items) {
-            this.counts = counts;
-            this.current = current;
-            this.items = items;
-        }
-
-        @Override
-        public boolean hasNext() {
-            /*if(current>counts){
-                return  false;
-            }else{
-                return false;
-            }*/
-
-            //2.
-            return  current<counts;
-        }
-
-        @Override
-        public Object next() throws NoSuchElementException{
-            //1.判断是否还有元素,再取
-            if(!hasNext()){
-                throw new NoSuchElementException("已经没有元素了");
-            }
-            current++;
-            return items[current-1];
-
-        }
-
-        @Override
-        public void remove() throws UnsupportedOperationException {
-            throw new UnsupportedOperationException("不支持进行删除操作");
-        }
-
+    @Override
+    public boolean hasNext() {
+        return current<count;
     }
+
+    @Override
+    public Object next() throws  UnsupportedOperationException{
+        if(hasNext()){
+            return contents[current++];
+        }else{
+            throw new UnsupportedOperationException("已经为空了");
+        }
+    }
+
+    @Override
+    public void remove() throws UnsupportedOperationException{
+        throw new UnsupportedOperationException("不支持删除元素");
+    }
+
 }

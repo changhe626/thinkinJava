@@ -53,23 +53,41 @@ public class LinkedBag implements BagADT {
 
 
     @Override
-    public boolean remove(Object element) {
+    public boolean remove(Object element) throws  NoSuchElementException{
+        if(count==0){
+            throw new NoSuchElementException("集合是空的");
+        }
+
         return false;
     }
 
     @Override
     public void addAll(BagADT bag) {
 
+
     }
 
     @Override
     public BagADT union(BagADT target) {
+        LinkedBag bag = new LinkedBag();
+
+
+
         return null;
     }
 
     @Override
     public boolean contains(Object element) {
-        return false;
+        if(count==0){
+            return false;
+        }
+        LinearNode next=contents;
+        while(next.getNext()!=null){
+            if(next.getElement().equals(element)){
+                return true;
+            }
+        }
+        return  false;
     }
 
     @Override
@@ -79,12 +97,12 @@ public class LinkedBag implements BagADT {
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return count==0;
     }
 
     @Override
     public int size() {
-        return 0;
+        return count;
     }
 
     @Override
