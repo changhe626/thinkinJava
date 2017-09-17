@@ -4,6 +4,9 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Random;
 
+/**
+ * 链表的实现方式，请自己写出来，谢谢
+ */
 public class LinkedBag implements BagADT {
 
     private  static Random random=new Random();
