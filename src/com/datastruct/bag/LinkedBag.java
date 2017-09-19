@@ -7,7 +7,7 @@ import java.util.Random;
 /**
  * 链表的实现方式,2017年9月19日09:05:26
  */
-public class LinkedBag implements BagADT,Iterable<LinkedBag>,Iterator {
+public class LinkedBag implements BagADT{
 
     private  static Random random=new Random();
 
@@ -25,8 +25,8 @@ public class LinkedBag implements BagADT,Iterable<LinkedBag>,Iterator {
     @Override
     public void add(Object element) {
         LinearNode node = new LinearNode(element);
-        contents.setNext(node);  //只需要设置下一个引用就行了
-        contents=node;        //替换为最新的一个节点
+        contents.setNext(node);  //只需要设置以前的旧节点是新建的节点的下一个就行了
+        contents=node;        //替换为最新的一个节点,就有了全部的节点了
         count++;
     }
 
@@ -47,10 +47,10 @@ public class LinkedBag implements BagADT,Iterable<LinkedBag>,Iterator {
                 previous=previous.getNext();
             }
             current=previous.getNext();
-            result=current.getElement();
-            previous.setNext(current.getNext());
+            result=current.getElement();//获得要去掉的那个节点
+            previous.setNext(current.getNext());  //改变下一的指向
         }
-        count--;
+        count--;  //个数减去1
         return result;
     }
 
@@ -60,15 +60,35 @@ public class LinkedBag implements BagADT,Iterable<LinkedBag>,Iterator {
         if(count==0){
             throw new NoSuchElementException("集合是空的");
         }
-        LinearNode previous=contents;
-        while(previous.getElement()!=null){
-            if(previous.getElement().equals(element)){
-                previous.getNext();
+        boolean found=false;
+        LinearNode previous,current;
+        Object result;
+        //这就是第一个元素的时候
+        if(contents.getElement().equals(element)){
+            result=contents.getElement();
+            contents=contents.getNext(); //直接指向下一个的引用
+            found=true;
+        }else{
+            //不是第一个的时候
+            previous=contents;
+            current=contents.getNext();
+            for (int i = 1; i <=count && !found; i++) {
+                 if(current.getElement().equals(element)){
+                     found=true;
+                 }else{
+                     //继续往下进行遍历
+                     previous=contents;
+                     current=current.getNext();
+                 }
+            }
+            //在找到后,true的时候执行,改变指向,同时减去个数,没有删除就返回false,不抛出异常
+            if(found){
+                result=current.getElement();
+                previous.setNext(current.getNext());
+                count--;
             }
         }
-
-
-        return false;
+        return found;
     }
 
     @Override
@@ -99,16 +119,17 @@ public class LinkedBag implements BagADT,Iterable<LinkedBag>,Iterator {
      */
     @Override
     public boolean contains(Object element) {
+        boolean flag=false;
         if(count==0){
-            return false;
+            return flag;
         }
         LinearNode next=contents;
         while(next.getNext()!=null){
             if(next.getElement().equals(element)){
-                return true;
+                flag= true;
             }
         }
-        return  false;
+        return  flag;
     }
 
     @Override
@@ -152,37 +173,51 @@ public class LinkedBag implements BagADT,Iterable<LinkedBag>,Iterator {
      */
     @Override
     public Iterator iterator() {
-        return this;
+        //这里之能够这样写
+        return new LinkedIterator(count,contents);
     }
 
     //迭代器的实现接口的三个方法
-    @Override
-    public boolean hasNext() {
-        boolean flag=false;
-        if(count==0){
-            return flag;
-        }
-        if(contents.getNext().getElement()!=null){
-            flag=true;
-        }
-        return flag;
-    }
+    //这里不能在本类中实现接口,会对原始数据进行改变,造成了影响,还必须用一个新的类
+
 
     @Override
-    public Object next() {
-        if(hasNext()){
-            Object element = contents.getElement();
-            LinearNode next = contents.getNext();
-            contents=next;  //重新进行赋值
-            return element;
+    public String toString() {
+        Iterator iterator = iterator();
+        StringBuilder sb = new StringBuilder();
+        while(iterator.hasNext()){
+            sb.append(iterator.next());
         }
+        return sb.toString();
+    }
+
+
+    /**
+     * 两个中不同的元素,放在一个袋子中,返回
+     * @param bag
+     * @return
+     */
+    public static  LinkedBag difference(LinkedBag bag){
+
+
         return null;
     }
 
-    @Override
-    public void remove() throws UnsupportedOperationException {
-        throw new UnsupportedOperationException("不能够进行删除");
+    /**
+     * 两个袋子中相同的元素,放在一起返回
+     * @param bag
+     * @return
+     */
+    public static LinkedBag intersection(LinkedBag bag){
+
+
+        return null;
     }
+
+
+
+
+
 }
 
 
@@ -215,5 +250,51 @@ class  LinearNode{
 
     public void setElement(Object element) {
         this.element = element;
+    }
+}
+
+
+class LinkedIterator implements ,Iterable<LinkedBag>,Iterator {
+
+    private int count;
+    private LinearNode contents;
+
+    public LinkedIterator(int count, LinearNode contents) {
+        this.count = count;
+        this.contents = contents;
+    }
+
+    @Override
+    public boolean hasNext() {
+        boolean flag=false;
+        if(count==0){
+            return flag;
+        }
+        if(contents!=null){
+            flag=true;
+        }
+        return flag;
+    }
+
+    @Override
+    public Object next() {
+        if(hasNext()){
+            Object element = contents.getElement();
+            LinearNode next = contents.getNext();
+            contents=next;  //重新进行赋值
+            return element;
+        }else{
+            throw new UnsupportedOperationException("");
+        }
+    }
+
+    @Override
+    public void remove() throws UnsupportedOperationException {
+        throw new UnsupportedOperationException("不能够进行删除");
+    }
+
+    @Override
+    public Iterator<LinkedBag> iterator() {
+        return this;
     }
 }
