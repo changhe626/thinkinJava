@@ -1,8 +1,8 @@
-package com.datastruct.com.datastruct.recursive;
+package com.datastruct.recursive;
 
 /**
  * Created by zk on 2017/9/19.
- * 作用: com.datastruct.com.datastruct.recursive.
+ * 简单的递归例子
  */
 public class SumDemo {
 

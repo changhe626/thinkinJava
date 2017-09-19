@@ -1,4 +1,4 @@
-package com.datastruct.com.datastruct.bag;
+package com.datastruct.bag;
 
 import java.util.Iterator;
 
