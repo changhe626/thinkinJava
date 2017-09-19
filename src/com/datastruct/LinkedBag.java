@@ -5,9 +5,9 @@ import java.util.NoSuchElementException;
 import java.util.Random;
 
 /**
- * 链表的实现方式，请自己写出来，谢谢
+ * 链表的实现方式,2017年9月19日09:05:26
  */
-public class LinkedBag implements BagADT {
+public class LinkedBag implements BagADT,Iterable<LinkedBag>,Iterator {
 
     private  static Random random=new Random();
 
@@ -60,6 +60,13 @@ public class LinkedBag implements BagADT {
         if(count==0){
             throw new NoSuchElementException("集合是空的");
         }
+        LinearNode previous=contents;
+        while(previous.getElement()!=null){
+            if(previous.getElement().equals(element)){
+                previous.getNext();
+            }
+        }
+
 
         return false;
     }
@@ -70,15 +77,24 @@ public class LinkedBag implements BagADT {
 
     }
 
+    /**
+     * 新建一个bag,进行赋值,然后返回,不要对参数进行了破坏
+     * @param target
+     * @return
+     */
     @Override
     public BagADT union(BagADT target) {
         LinkedBag bag = new LinkedBag();
-
-
-
-        return null;
+        bag.addAll(this);
+        bag.addAll(target);
+        return bag;
     }
 
+    /**
+     * 遍历查找,比较
+     * @param element
+     * @return
+     */
     @Override
     public boolean contains(Object element) {
         if(count==0){
@@ -95,7 +111,27 @@ public class LinkedBag implements BagADT {
 
     @Override
     public boolean equal(BagADT bag) {
-        return false;
+        boolean flag=false;
+        if(count==0 && bag.size()==0){
+            flag=true;
+            return flag;
+        }
+        //进行参数的保存,备份,不然会对原来的参数造成破坏了
+        BagADT bag1=new LinkedBag();
+        BagADT bag2=new LinkedBag();
+        bag1.addAll(this);
+        bag2.addAll(bag);
+        Iterator iterator = bag1.iterator();
+        while (iterator.hasNext()){
+            Object tmp = iterator.next();
+            bag1.remove(tmp);
+            bag2.remove(tmp);
+        }
+        //同时为空
+        if(bag1.size()==0 && bag2.size()==0){
+            flag=true;
+        }
+        return flag;
     }
 
     @Override
@@ -108,11 +144,46 @@ public class LinkedBag implements BagADT {
         return count;
     }
 
+    /**
+     * 直接返回这个对象
+     * @return
+     */
     @Override
     public Iterator iterator() {
+        return this;
+    }
+
+    //迭代器的实现接口
+    @Override
+    public boolean hasNext() {
+        boolean flag=false;
+        if(count==0){
+            return flag;
+        }
+        if(contents.getNext().getElement()!=null){
+            flag=true;
+        }
+        return flag;
+    }
+
+    @Override
+    public Object next() {
+        if(hasNext()){
+            Object element = contents.getElement();
+            LinearNode next = contents.getNext();
+            contents=next;  //重新进行赋值
+            return element;
+        }
         return null;
     }
+
+    @Override
+    public void remove() throws UnsupportedOperationException {
+        throw new UnsupportedOperationException("不能够进行删除");
+    }
 }
+
+
 
 //一个自定义的节点
 class  LinearNode{
