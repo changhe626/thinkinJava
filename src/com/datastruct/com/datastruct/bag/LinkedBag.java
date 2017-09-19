@@ -1,4 +1,4 @@
-package com.datastruct;
+package com.datastruct.com.datastruct.bag;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -73,8 +73,10 @@ public class LinkedBag implements BagADT,Iterable<LinkedBag>,Iterator {
 
     @Override
     public void addAll(BagADT bag) {
-
-
+        Iterator iterator = bag.iterator();
+        while (iterator.hasNext()){
+            add(iterator.next());
+        }
     }
 
     /**
@@ -153,7 +155,7 @@ public class LinkedBag implements BagADT,Iterable<LinkedBag>,Iterator {
         return this;
     }
 
-    //迭代器的实现接口
+    //迭代器的实现接口的三个方法
     @Override
     public boolean hasNext() {
         boolean flag=false;
@@ -182,7 +184,6 @@ public class LinkedBag implements BagADT,Iterable<LinkedBag>,Iterator {
         throw new UnsupportedOperationException("不能够进行删除");
     }
 }
-
 
 
 //一个自定义的节点

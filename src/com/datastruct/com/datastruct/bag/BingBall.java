@@ -1,4 +1,4 @@
-package com.datastruct;
+package com.datastruct.com.datastruct.bag;
 
 public class BingBall {
 
