@@ -18,4 +18,36 @@ public class SortDemo {
             data[i]=temp;
         }
     }
+
+
+    public static void insetSort(int[] data){
+        for (int i = 0; i < data.length; i++) {
+            int datum = data[i];
+            int position=i;
+            while(position>0 && data[position-1]>datum){
+                data[position]=data[position-1];
+                position--;
+            }
+            data[position]=datum;
+        }
+    }
+
+
+    public static void bubbleSort(int[] data){
+        int position,scan;
+        int temp;
+        for (position = data.length-1; position >=0 ; position--) {
+            for (scan = 0; scan <=position-1; scan++) {
+                if(data[scan]>data[scan+1]){
+                    //swap values
+                    temp=data[scan];
+                    data[scan]=data[scan+1];
+                    data[scan+1]=temp;
+                }
+            }
+        }
+    }
+
+
+
 }
