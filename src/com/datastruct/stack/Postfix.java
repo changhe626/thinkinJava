@@ -20,7 +20,7 @@ public class Postfix {
                 System.out.println("enter a valid postfix expression");
                 expression=in.readLine();
                 System.out.println("expression"+expression);
-                result=evaluator.evaluate();
+                result=evaluator.evaluate(expression);
                 System.out.println("result"+result);
                 again=in.readLine();
                 System.out.println("again"+again);

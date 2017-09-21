@@ -1,6 +1,5 @@
 package com.datastruct.stack;
 
-import jdk.nashorn.internal.parser.Token;
 
 import java.util.StringTokenizer;
 
