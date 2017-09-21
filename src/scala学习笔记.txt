@@ -96,6 +96,7 @@ lazy val z=x-y;
 
 什么时候用lazy val? 定义的变量后面可能不会被用到,可以定义为lazy val.
 
+只能够有lazy val,不能有lazy  var!!!
 
 3.2数据类型
 
@@ -143,7 +144,7 @@ String就是java的
 val myname="ke"
 s"my name is ${myname}"
 小写的s进行标记,就得到一个新的字符串了,进行了替换
-
+var 和val 都可以这样用的
 
 3.3函数与代码块
 
