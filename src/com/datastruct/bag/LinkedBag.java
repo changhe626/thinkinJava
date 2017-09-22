@@ -221,40 +221,10 @@ public class LinkedBag implements BagADT{
 }
 
 
-//一个自定义的节点
-class  LinearNode{
-    private LinearNode next;
-    private Object element;
-
-    public LinearNode() {
-        next=null;
-        element=null;
-    }
-
-    public LinearNode(Object element) {
-        this.element = element;
-        next=null;
-    }
-
-    public LinearNode getNext() {
-        return next;
-    }
-
-    public Object getElement() {
-        return element;
-    }
-
-    public void setNext(LinearNode next) {
-        this.next = next;
-    }
-
-    public void setElement(Object element) {
-        this.element = element;
-    }
-}
 
 
-class LinkedIterator implements ,Iterable<LinkedBag>,Iterator {
+
+class LinkedIterator implements Iterable<LinkedBag>,Iterator {
 
     private int count;
     private LinearNode contents;
