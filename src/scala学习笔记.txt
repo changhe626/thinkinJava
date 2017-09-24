@@ -256,7 +256,7 @@ scala有两种
 scala通常使用call by value
 如果函数形参类型以=>开头,那么会使用call by name
 def foo(x:Int)=x    //call by value
-def foo(x:=>Int)=x  //call by name
+def foo(x: =>Int)=x  //call by name   (注意:后面有一个空格,不然会报错的)
 
 
 def test1(x:Int,y:Int):Int=x*x
@@ -271,10 +271,9 @@ def bar(x:Int,y:=>Int):Int=1
 def loop():Int=loop
 
 bar(1,loop)  返回1
-bar(loop,1)  一直死循环
+bar(loop,1)  一直死循环,因为不断的在递归调用loop,想要计算出loop的值,再放入,结果一直在递归调用
 
 
-保啊/银湾保险
 
 
 5.1函数和匿名函数
@@ -326,7 +325,7 @@ val addOne=curriedAdd(1)_  //Int=>Int  通配符,只有b灵活可变
 addOne(2)  //3
 相当于curriedAdd(1)(2)
 
-提高函数的复用性!!!
+提高函数的复用性!!!相当于有了一个定值的参数
 
 5.3递归与尾递归
 递归函数(Recursive Function)在函数式编程中是实现循环的一种技术
@@ -355,6 +354,7 @@ def factorial(n:Int,m:Int):Int={
 ∑ba f(x)
 
 object sumfunc{
+
 	def sum(f:Int=>Int)(a:Int)(b:Int):Int={
 		@annotation.tailrec
 		def loop(n:Int,acc:Int):Int={
@@ -387,6 +387,8 @@ val b=0::a   把0放到a里面去
       元素/List 放到头部
 
 val c="x"::"y"::"z"::Nil   //逐一的连接
+
+val c2="x"::"y"::"z"   error: value :: is not a member of String  报出这个错误,不能少了后面的Nil
 
 连接两个List
 a:::c

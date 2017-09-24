@@ -1,18 +1,47 @@
 package com.datastruct.queue;
 
+import com.datastruct.bag.LinearNode;
+
+import java.util.ConcurrentModificationException;
+import java.util.NoSuchElementException;
+
 /**
  * Created by zk on 2017/9/22.
  * 作用: com.datastruct.queue.
  */
 public class LinkedQueue  implements QueueADT{
+    private LinearNode  head;
+    private LinearNode tail;
+    private  static int count=0;
+
+    public LinkedQueue() {
+        head=null;
+        tail=null;
+    }
+
     @Override
     public boolean enqueue(Object element) {
-        return false;
+        LinearNode node = new LinearNode();
+        if(head==null){
+            tail=node;
+        }else{
+            head.setNext(node);
+        }
+        tail=node;
+        count++;
+        return true;
     }
 
     @Override
     public Object dequeue() {
-        return false;
+        if(isEmpty()){
+            throw  new NoSuchElementException();
+        }
+        Object element = tail.getElement();
+        LinearNode next = tail.getNext();
+        tail=next;
+        count--;
+        return element;
     }
 
     @Override
@@ -22,11 +51,16 @@ public class LinkedQueue  implements QueueADT{
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return count==0;
     }
 
     @Override
     public int size() {
-        return 0;
+        return count;
+    }
+
+    @Override
+    public String toString() {
+        return "LinkedQueue{}";
     }
 }
