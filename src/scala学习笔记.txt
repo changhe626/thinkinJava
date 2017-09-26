@@ -419,6 +419,106 @@ a.filter(x=>x%2==1)    //返回符合要求的元素
 
 
 6.2 list-map
+map 用于元素的转换,映射
+
+//使用匿名函数
+c.map(x=>toUpperCase)  转换为大写
+c.map(_.toUpperCase)  
+
+a.filter(_%2==1)
+
+a.filter(_%2==1).map(_+10) 
+
+val q=List(a,List(4,5,6))
+
+q.map(x=>x.filter(_2%==0))
+
+q.flatMap(_.filter(_%2==0))
+会把flatMap两层的map转换为一层
+
+6.3 reduceLeft与flodLeft
+reduceLeft(op:(T,T))=>T
+
+a.reduceLeft((x,y)=>x+y)
+
+a.reduceLeft(_+_)
+
+
+foldLeft(z:U)(op:(U,T)=>U)
+a.foldLeft(0)(_+_)
+a.foldLeft(1)(_*_)
+
+6.4Rang与Stream
+
+Rang就是一个整数的序列
+ 1 to 10 步径默认1  1-10
+ 1  to 10 by 2 设置步径
+(1 to 10).toList
+ 1 until 10   1-9
+ 
+ Stream  按需求值
+就是一个lazy List  惰性求值列表,第一个值确定的,其他的不求值,用到的时候才求值
+val s=1 #:: 2#:: 3#:: Stream.empty
+
+val stream=(1 to 100000).toStream
+
+stream.head
+stream.tail
+
+
+6.5 toupe与map
+
+Tupe元组
+可能有多个值,
+val tp1=(1,2)
+val tp2=1->2   一对的时候 pair
+val t3=(1,"AA","CCC",97)
+t3._1
+t3._2
+t3._3
+t3._4
+//求和
+def sumSq(in:List[Double]):(Int,Double,Double)=
+	in.foldLeft((0,0d,0d))
+    ((t,v)=>(t._1+1,t._2+v,t._3+v*v))
+	
+sumSq(List(1.0,2.0,3.0))
+
+Map[K,V]
+val p=Map(1->"AA",2->"dsa")
+
+p(1)
+p(2)
+p(3)
+
+p.contains(1)  是否包含key
+
+p.keys  所有keys
+
+p.values  所有values
+
+p+(3->"dsa")  新加入
+
+p-1  删除
+
+p++List(2->"dsa",5->"dsadsa")  放入多个
+
+p--List(1,9)  删除多个
+
+
+6.7快速排序案列
+
+def qSort(a:List[Int]):List[Int]={
+	if(a.length<2) a
+	else qSort(a.filter(a.head>_))++
+	a.filter(a.head==_)++
+	qSort(a.filter(a.head<_))
+}
+
+qSort(List(1,4,7,8,3,2,7,9))
+
+
+
 
 
 
