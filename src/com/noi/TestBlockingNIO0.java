@@ -10,6 +10,19 @@ import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 
 /*
+   传统的 IO 流都是阻塞式的。也就是说，当一个线程调用 read() 或 write()时，该线程被阻塞，
+   直到有一些数据被读取或写入，该线程在此期间不能执行其他任务。因此，在完成网络通信进行 IO 操作时，
+   由于线程会阻塞，所以服务器端必须为每个客户端都提供一个独立的线程进行处理，当服务器端需要处理大量客户端时，
+   性能急剧下降。
+
+Java NIO 是非阻塞模式的。当线程从某通道进行读写数据时，若没有数据可用时，该线程可以进行其他任务。
+线程通常将非阻塞 IO 的空闲时间用于在其他通道上执行 IO 操作，所以单独的线程可以管理多个输入和输出通道。
+因此，NIO 可以让服务器端使用一个或有限几个线程来同时处理连接到服务器端的所有客户端。
+
+选择器（Selector）
+选择器（Selector）是SelectableChannle对象的多路复用器,Selector可以同时监控多个SelectableChannel的IO状况，
+也就是说，利用 Selector可使一个单独的线程管理多个 Channel。Selector 是非阻塞 IO 的核心。
+
  * 一、使用NIO 完成网络通信的三个核心：
  *
  * 1、通道(Channel):负责连接
@@ -26,7 +39,7 @@ import java.nio.channels.SocketChannel;
  *
  * 3.选择器(Selector):是 SelectableChannel 的多路复用器。用于监控SelectableChannel的IO状况
  */
-public class TestTwo {
+public class TestBlockingNIO0  {
 
     //客户端
     @Test

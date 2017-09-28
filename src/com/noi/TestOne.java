@@ -14,6 +14,26 @@ import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CharsetEncoder;
 
 /*
+一、通道（Channel）与缓冲区（Buffer）
+
+若需要使用 NIO 系统，需要获取用于连接 IO 设备的通道以及用于容纳数据的缓冲区。然后操作缓冲区，对数据进行处理。
+简而言之，Channel 负责传输， Buffer 负责存储。
+
+1、缓冲区（Buffer）
+
+缓冲区（Buffer） ：一个用于特定基本数据类型的容器。由 java.nio 包定义的，所有缓冲区都是 Buffer 抽象类的子类。
+Java NIO 中的 Buffer 主要用于与 NIO 通道进行交互，数据是从通道读入缓冲区，从缓冲区写入通道中的。
+
+2、通道（Channel）
+
+通道：由java.nio.channels包定义。
+Channel表示IO源与目标打开的连接。
+Channel类似于传统的“流”。但其自身不能直接访问数据，Channel只能与Buffer进行交互。
+
+操作系统中：通道是一种通过执行通道程序管理I/O操作的控制器，它使主机（CPU和内存）与I/O操作之间达到更高的并行程度。
+需要进行I/O操作时，CPU只需启动通道，然后可以继续执行自身程序，通道则执行通道程序，管理与实现I/O操作。
+
+
  * 一、缓冲区（Buffer）：在java NIO 中负者数据的存储。缓冲区就是数组。用于存储不同类型的数据。
  *
  * 根据数据类型的不同(boolean 除外)，有以下 Buffer 常用子类：
@@ -53,7 +73,36 @@ import java.nio.charset.CharsetEncoder;
  *          直接缓冲区的内容可以驻留在常规的垃圾回收堆之外.
  *          将直接缓冲区主要分配给那些易受基础系统的本机 I/O 操作影响的大型、持久的缓冲区。
  *          最好仅在直接缓冲区能在程序性能方面带来明显好处时分配它们。
- *          直接字节缓冲区还可以过 通过FileChannel 的 map() 方法 将文件区域直接映射到内存中来创建 。该方法返回MappedByteBuffe
+ *          直接字节缓冲区还可以过 通过FileChannel 的 map() 方法 将文件区域直接映射到内存中来创建 。
+ *          该方法返回MappedByteBuffe
+ *
+ *
+ * 一、通道(Channel):用于源节点与目标节点的连接。在java NIO中负责缓冲区中数据的传输。Channel本身不存储数据，需要配合缓冲区进行传输。
+ *
+ * 二、通道的主要实现类
+ *    java.nio.channels.Channel 接口：
+ *        |--FileChannel：用于读取、写入、映射和操作文件的通道。
+ *        |--SocketChannel：通过 TCP 读写网络中的数据。
+ *        |--ServerSocketChannel：可以监听新进来的 TCP 连接，对每一个新进来的连接都会创建一个 SocketChannel。
+ *        |--DatagramChannel：通过 UDP 读写网络中的数据通道。
+ *
+ * 三、获取通道
+ * 1.java针对支持通道的类提供了getChannel()方法
+ *      本地IO：
+ *      FileInputStream/FileOutputStream
+ *      RandomAccessFile
+ *
+ *      网络IO：
+ *      Socket
+ *      ServerSocket
+ *      DatagramSocket
+ *
+ * 2.在JDK 1.7 中的NIO.2 针对各个通道提供了静态方法 open()
+ * 3.在JDK 1.7 中的NIO.2 的Files工具类的newByteChannel()
+ *
+ * 四、通道之间的数据传输
+ * transferFrom()
+ * transferTo()
  */
 public class TestOne {
     public static void main(String[] args) {
@@ -159,66 +208,7 @@ public class TestOne {
     }*/
 
 
-    //分散读取,聚集写入
-    @Test
-    public void test5() throws  Exception{
-        RandomAccessFile rw = new RandomAccessFile("d:/1.log", "rw");
-        //1.获取通道
-        FileChannel channel = rw.getChannel();
-        //2.分配指定大小的缓冲区
-        ByteBuffer buffer1 = ByteBuffer.allocate(100);
-        ByteBuffer buffer2 = ByteBuffer.allocate(1024);
-        //3.分散读取
-        ByteBuffer[] buffs={buffer1,buffer2};
-        channel.read(buffs);
-        for(ByteBuffer byteBuffer : buffs){
-            byteBuffer.flip();
-        }
-        System.out.println(new String(buffs[0].array(),0,buffs[0].limit()));
-        System.out.println("--------------------");
-        System.out.println(new String(buffs[1].array(),0,buffs[1].limit()));
 
-
-        //聚集写出
-        RandomAccessFile rw2 = new RandomAccessFile("d:2.txt", "rw");
-        FileChannel rw2Channel = rw2.getChannel();
-        rw2Channel.write(buffs);
-        rw2.close();
-        rw2Channel.close();
-        rw.close();
-        channel.close();
-    }
-
-    //Charset 编码,解码
-    @Test
-    public void test6() throws  Exception{
-        Charset gbk = Charset.forName("GBK");
-        //获取编码器
-        CharsetEncoder ce1 = gbk.newEncoder();
-        //获取解码器
-        CharsetDecoder cd1 = gbk.newDecoder();
-        String s="昂首千秋远,笑傲风间,堪寻敌手共论剑,高处不胜寒";
-        CharBuffer buffer = CharBuffer.allocate(100);
-        buffer.put(s);
-
-        buffer.flip();
-        ByteBuffer encode = ce1.encode(buffer);
-        for (int i = 0; i < 30; i++) {
-            System.out.println(encode.get());
-        }
-        System.out.println("~~~~~~~~~~~~~~~~~~~~");
-        //解码
-        encode.flip();
-        CharBuffer decode = cd1.decode(encode);
-        System.out.println(decode.toString());
-
-        //使用utf-8就会产品乱码了
-        System.out.println("~~~~~~~~~~~~~~~~~~~~");
-        encode.flip();
-        Charset u8 = Charset.forName("UTF-8");
-        CharBuffer decode1 = u8.decode(encode);//直接进行解码
-        System.out.println(decode1.toString());
-    }
 
 
 
