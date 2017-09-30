@@ -3,7 +3,6 @@ package com.tomcat.one;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
-import java.net.UnknownHostException;
 
 /**
  * Created by zk on 2017/9/25.
