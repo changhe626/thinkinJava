@@ -1,11 +1,9 @@
 package com.noi;
 
 import org.junit.Test;
-import sun.awt.CharsetString;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.channels.FileChannel;
@@ -110,12 +108,12 @@ public class TestOne {
         System.out.println(buffer.position());
         System.out.println(buffer.limit());
         System.out.println(buffer.capacity());
-        System.out.println("~~~~~~~~~~~~~~");
+   /*     System.out.println("~~~~~~~~~~~~~~");
         buffer.put("hello".getBytes());
 
         buffer.clear();
         buffer.flip();
-        System.out.println((char)buffer.get());
+        System.out.println((char)buffer.get());*/
 
         /*System.out.println(buffer.position());
         System.out.println(buffer.limit());
@@ -157,10 +155,10 @@ public class TestOne {
         ByteBuffer buffer = ByteBuffer.allocate(1024);
         //4.将通道中的数据存入缓冲区中
         while(fisChannel.read(buffer)!=-1){
-            buffer.flip();//切换到读模式
+           /* buffer.flip();//切换到读模式
             //将缓冲区中的数据写到通道中去
             fosChannel.write(buffer);
-            buffer.clear();//清空缓冲区
+            buffer.clear();//清空缓冲区*/
         }
         //关流,正常是用try catch的,不要这个throw
         fisChannel.close();
