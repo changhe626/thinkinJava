@@ -11,7 +11,7 @@ import java.util.Collections;
 public class UseCaseTracker {
 
     public static void main(String[] args){
-        ArrayList<Integer> useCase = new ArrayList<>();
+        ArrayList<Integer> useCase = new ArrayList<Integer>();
         Collections.addAll(useCase,47,48,49,50);
         trackUseCase(useCase,PasswordUtils.class);
     }
