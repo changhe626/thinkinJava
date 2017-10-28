@@ -30,8 +30,28 @@ public class Test {
 
 
         //AA BB CC DD
-        Object o=new DD();
-        System.out.println(o instanceof BB);
+//        Object o=new DD();
+//        System.out.println(o instanceof BB);
+
+
+
+        //关系是AA 下面是BB  和B2
+
+        DD dd = new DD();
+        D2 d2 = new D2();
+        //两个类不能进行转换
+        System.out.println( DD.class.isInstance(d2) );
+        System.out.println( D2.class.isInstance(dd) );
+
+
+        //无法转换
+        //((D2)dd).say();
+
+        //废话了,当然属于他们的父类了
+        System.out.println(AA.class.isInstance(d2));
+        System.out.println(AA.class.isInstance(dd));
+
+
 
     }
 }

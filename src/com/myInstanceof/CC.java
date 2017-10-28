@@ -6,3 +6,8 @@ package com.myInstanceof;
  */
 public class CC extends BB {
 }
+
+
+class C2 extends  B2{
+
+}
