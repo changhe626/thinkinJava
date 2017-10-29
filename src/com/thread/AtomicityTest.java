@@ -26,7 +26,9 @@ public class AtomicityTest  implements  Runnable{
         }
     }
 
-    public static void main(String[] args) {
+    //https://www.douyu.com/705690
+
+    public static void main(String[] args)  {
         ExecutorService pool = Executors.newCachedThreadPool();
         AtomicityTest at = new AtomicityTest();
         pool.submit(at);
