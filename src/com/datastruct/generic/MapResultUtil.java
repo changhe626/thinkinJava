@@ -23,7 +23,7 @@ public class MapResultUtil {
 
     /**
      * 放置元素
-     * @param t
+     * @param
      * @param <T>
      */
     public static<T> void add(String key,T value){
@@ -39,7 +39,7 @@ public class MapResultUtil {
     public static Map<Object, Class> get(String key){
         Object o = map.get(key);
         Class aClass = clazz.get(key);
-        Map<Object, Class> map = new HashMap<>();
+        Map<Object, Class> map = new HashMap<Object, Class>();
         map.put(o,aClass);
         return map;
            // return aClass.cast(o);

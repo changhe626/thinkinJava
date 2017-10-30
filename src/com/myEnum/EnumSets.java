@@ -17,7 +17,7 @@ public class EnumSets {
 
         System.out.println("~~~~~~~~~~~~~~`");
 
-        EnumMap<Single, String> map = new EnumMap<>(Single.class);
+        EnumMap<Single, String> map = new EnumMap<Single, String>(Single.class);
         map.put(Single.GREEN,"2");
         map.put(Single.RED,"1");
         map.put(Single.YELLO,"3");
