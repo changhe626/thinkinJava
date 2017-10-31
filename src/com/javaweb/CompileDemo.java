@@ -13,7 +13,10 @@ public class CompileDemo {
     }
 
     public static int compile(String[] args){
-        com.sun.tools.javac.main.Main compiler = new com.sun.tools.javac.main.Main("javac");
-        return compiler.compile(args).exitCode;
+       // com.sun.tools.javac.main.Main compiler = new com.sun.tools.javac.main.Main("javac");
+       // return compiler.compile(args).exitCode;
+        return -1;
     }
+
+
 }
