@@ -23,5 +23,32 @@ noSQL,只能三者选其二,经典CAP图
 最终一致性
 
 
+remote dictionary Server  远程字典服务器
+
+
+
+启动redis   redis-server  /etc/(配制文件)
+
+redis -cli -p  6379  也可以直接redis-cli
+
+
+set k1 hello
+get hello 
+
+shutdown  关掉
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
