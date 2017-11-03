@@ -37,6 +37,56 @@ get hello
 
 shutdown  关掉
 
+单进程
+对读写等事件的响应是通过epoll的函数进行包装的
+
+默认16个库
+redis.conf  中设置的
+切换所在库  select 7 切换到6号库,从0开始的
+
+
+Dbsize 查看当前库的key的数量
+
+keys  *  所在库的所有key展示
+
+keys k?   所有k开头的key
+
+FlushDB   清除当前库的所有keys
+
+FlushAll  清除所有的库的keys
+
+统一密码管理,16个库密码相同
+
+Redis索引从0开始
+
+默认端口6379
+
+
+数据类型:
+五大:
+	1.String  单key单value,string可以包含任何数据,value最大是512M
+	2.List   简单的字符串列表,按照插入顺序排序,可以添加一个元素导列表的头部或者尾部,底层实际是链表
+	3.Hash  类似map   类似Map<String,Object>
+	4.Set   string的无序集合,无重复
+	5.Sort Set(Zset) 有序集合
+	和Set相比,不同的是每个元素都会关联一个double类型的分数
+	redis正式通过分数来为集合中的成员进行从小到大的排序,zset的成员是唯一的,但分数却可以重复
+
+
+	常见数据类型的命令的
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
