@@ -1,0 +1,102 @@
+
+代码块,都有返回结果,哪怕是空
+
+for(i <- 1 to 10) println(i)
+
+1 to 10
+
+for(i <- 0 until 10) println(i)
+打印0-9
+
+0 until 10
+
+
+val str="hello123"
+for( c <-str) println(c) 依次遍历字符串
+
+str.charAt(0)  对应的字符
+str.charAt(100)  报出异常了
+
+字符串的遍历
+for(c<- 0 until str.length) println(str.charAt(i))
+
+定义数组
+val arr=Array(1,2,3,5,7,4)
+取值
+for(i<- arr) println(i)
+
+取值
+arr(0)
+也会造成越界
+
+for(i<- 0 until arr.length) println(arr(i))
+
+双层for循环
+for(i<- 1 to 3;j<- 1 to 3 if i!=j )
+print((10*i+j)+"")
+println()
+
+
+for推导式:如果for循环的循环体以yield开始,则该循环会构建出一个集合
+//每次迭代生成集合中的一个值
+val v=for(i<- 1 to 10) yield i*10
+println(v)
+
+
+val arr=Array(1,3,5,3,7)
+for(i<- arr) yield i*10
+返回的类型和原类型相同
+
+
+arr.map(_ * 10)
+arr.map(x=>x*10)
+
+取出其中偶数,*200
+for(i<-arr if i%2==0) yield i*200
+
+arr.filter(m => m%2==0).map(n=>n*200)
+
+
+
+方法的定义
+def say():Unit={println("hi")  } 
+def say(){println("hi") }
+def say()={println("hi")}
+
+
+
+如何定义函数?
+特征:=>
+=> 左边是参数列表,右边是函数体,可以用{}
+(x:Int,y:Int)=>x+y
+
+val f1=(x:Int,y:Int)=>x+y
+val f2:(Int,Int)=>Int={(x,y)=>x+y}  不容易看,详细
+
+用变量f1来引用定义的函数.
+f1(3,5)
+函数可以作为参数传入到方法里.
+
+val f3:Int=>Double={ x=>x.toDouble}
+
+val f4=(x:Int)=>x.toDouble 
+
+无参,只打印5,返回Unit
+val f5=() =>println(5)
+调用f5()
+
+
+输入两个Int,返回Double类型的...new 接口,实现方法
+val f6=new Function2[Int,Int,Double]{
+	def apply(x:Int,y:Int)={x+y}
+}
+
+匿名函数(用的最多的是直接放到方法里):
+
+
+
+  
+
+
+
+
