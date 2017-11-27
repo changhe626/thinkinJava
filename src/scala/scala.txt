@@ -95,27 +95,30 @@ val f6=new Function2[Int,Int,Double]{
 
 
 
+函数可以作为参数传递到方法中
 
 
+val f=(x:Int)=>x*x
+
+f(5)
+
+val arr=Array(1,2,3,4,5)
+
+arr.map(f)
+
+匿名函数
+arr.map((x:Int)=>x*x)
+省略类型
+arr.map((x)=>x*x)
+
+arr.map(x=>x*x)
+
+arr.map(_*10)
 
 
+val p=(x:Int)=> x%2==0
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+arr.filter(p)
 
 
 val p= (x:Int)=>x%2==0
@@ -252,6 +255,56 @@ set-=2
 
 
 
+val arr=Array("hello tom hello jerry","hello tom hello tom","hello tom hello jerry")
+
+求单词的频率
+
+arr.map(x=>x.spilt(" ")).flatten
+arr.map(_.spilt(" ")).flatten
+val words=arr.flatMap(_.spilt(" "))
+
+
+
+原组:
+val t=("a",1)
+特殊集合,多种类型,多个
+
+val t2=("a",1,2.0,"hello",100L)
+
+取出元素
+t2._1   ._下标从1开始的
+
+两个元素就是对偶原组.就是map
+
+val m1=Map("a"->1,"b"->2)
+
+原组定义map
+val m2=Map(("c",1),("d",2),("e",3))
+
+
+
+
+words.map((_,1))  每个单词都是一个map了,value是1
+
+words.map(x=>(x,1))
+
+val grouped=wordAndOne.groupBy(_._1)  按照原组的第一个元素分组
+
+
+val res=grouped.map(t => (t._1,t._2.length))  得到结果
+得到一个hashMap
+
+
+val wordsRes=res.toList
+
+wordsRes.sortBy(_._2)  按照升序排
+
+降序wordsRes.sortBy(_._2).reverse
+
+
+
+
+arr.flatMap(_.spilt(" ")).map((_,1)).groupBy(_._1),map(t=>t._1,t._2.length).toList.sortBy(_._2).reverse
 
 
 
