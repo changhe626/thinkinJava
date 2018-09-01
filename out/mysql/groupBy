@@ -1,0 +1,25 @@
+group by
+	1.去掉重复值   和distinct一样的效果但是没有排序
+	2.进行排序
+
+	
+	现在用desc 查看执行计划   desc SQL语句
+	
+	group by + limit 1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
