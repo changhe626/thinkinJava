@@ -13,6 +13,10 @@ public class Demo5 {
         IntConsumer aNew = String[]::new;
         System.out.println(aNew);
 
+        Runnable runnable = "a"::toUpperCase;
+        //什么都没有打印出啊...
+        new Thread(runnable).start();
+
 
         TreeSet<String> collect = Stream.of("a", "b", "d", "a").collect(Collectors.toCollection(TreeSet::new));
         System.out.println(collect);
