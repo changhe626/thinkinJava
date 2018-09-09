@@ -1,24 +1,32 @@
 package thread.book2.char4;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 /**
- * 线程的优先级
+ * 线程的优先级.案例
  */
 public class Priority {
     private static volatile  boolean notStart=true;
     private static volatile  boolean notEnd=true;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
 
         ArrayList<Job> jobs = new ArrayList<Job>();
         for (int i = 0; i < 10; i++) {
-            int priority=i<5?Thread.MIN_PRIORITY:Thread.MIN_PRIORITY;
+            int priority=i<5?Thread.MIN_PRIORITY:Thread.MAX_PRIORITY;
             Job job = new Job(priority);
             jobs.add(job);
             Thread thread = new Thread(job, "thread" + i);
             thread.setPriority(priority);
             thread.start();
+        }
+        notStart=false;
+        TimeUnit.SECONDS.sleep(10);
+        notEnd=false;
+
+        for (Job job : jobs) {
+            System.out.println("优先级是:"+job.priority+",次数是"+job.jobCount);
         }
     }
 

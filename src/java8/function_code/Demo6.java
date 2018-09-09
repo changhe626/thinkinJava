@@ -1,4 +1,4 @@
-package function_code;
+package java8.function_code;
 
 import java.util.List;
 import java.util.stream.Collectors;
