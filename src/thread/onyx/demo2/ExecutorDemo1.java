@@ -9,7 +9,7 @@ public class ExecutorDemo1  {
 
         ExecutorService service = Executors.newFixedThreadPool(10);
 
-        List<Future> futures = new ArrayList<>();
+        List<Future> futures = new ArrayList<Future>();
         for (int i = 0; i < 3; i++) {
             MyTask myTask = new MyTask("任务" + i);
             Future submit = service.submit(myTask);
@@ -32,7 +32,7 @@ class MyTask implements Callable{
         this.name = name;
     }
 
-    @Override
+
     public Object call() throws Exception {
         System.out.println("开始了任务"+name);
 
