@@ -10,7 +10,20 @@ import java.util.Collections;
  */
 public class UseCaseTracker {
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
+
+        Class<PasswordUtils> aClass = PasswordUtils.class;
+        Method[] methods = aClass.getDeclaredMethods();
+        for (Method method : methods) {
+            UseCase useCase = method.getAnnotation(UseCase.class);
+            if(useCase!=null){
+                System.out.println(useCase.id()+"~~"+useCase.description());
+            }
+        }
+    }
+
+
+    /*public static void main(String[] args){
         ArrayList<Integer> useCase = new ArrayList<Integer>();
         Collections.addAll(useCase,47,48,49,50);
         trackUseCase(useCase,PasswordUtils.class);
@@ -29,5 +42,5 @@ public class UseCaseTracker {
         }
 
 
-    }
+    }*/
 }

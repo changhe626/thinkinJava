@@ -1,5 +1,6 @@
 package java8;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -8,6 +9,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.util.Date;
 
 /**
  * @author zk
@@ -21,6 +23,12 @@ Zoned(时区) − 通过制定的时区处理日期时间。
 public class NewTime {
 
     public static void main(String args[]){
+        //jdk1.8之前的,有线程安全问题
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:MM:ss");
+        String format = simpleDateFormat.format(new Date());
+        System.out.println(format);
+
+        //jdk 1.8
         NewTime java8tester = new NewTime();
         java8tester.testLocalDateTime();
         java8tester.testZonedDateTime();
@@ -31,7 +39,6 @@ public class NewTime {
 
         String formattered2 = DateTimeFormatter.ofPattern("E yyyy-MM-dd HH:mm").format(beijingOlympicOpenning);
         System.out.println(formattered2); // 星期五 2008-08-08 20:00
-
 
     }
 

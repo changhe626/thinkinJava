@@ -20,6 +20,17 @@ public class LambdaDemo {
             return a*b;
         };
 
+        Runnable task=()->{
+            System.out.println("这是多线程的任务");
+        };
+
+        Runnable task2 = new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("这是多线程的任务2");
+            }
+        };
+
 
         GreetingService greetingService=message -> {
             System.out.println("shi:"+message);
