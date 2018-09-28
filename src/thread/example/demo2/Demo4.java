@@ -1,7 +1,7 @@
 package thread.example.demo2;
 
 public class Demo4 extends Thread {
-    private int i=5;
+    private int i=10;
 
     @Override
     public  synchronized void run() {
